@@ -1,5 +1,11 @@
 import h from './my-hyperscript.js';
 
+const getRandomItemFromArray = (list) => {
+  return list[
+    Math.round(Math.random() * (list.length - 1))
+  ];
+};
+
 const App = (props) => {
   const { list } = props;
 
@@ -30,3 +36,11 @@ const state = {
 };
 
 render(state);
+
+setInterval(() => {
+  state.list = [
+    ...state.list,
+    getRandomItemFromArray(state.list)
+  ];
+  render(state);
+}, 1000);
