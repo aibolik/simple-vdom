@@ -47,4 +47,12 @@ const render = (vnode, parent) => {
   diff(undefined, vnode, parent)
 }
 
+<<<<<<< HEAD
 render(h(App), document.querySelector('#root'))
+=======
+// renderNode(new App());
+
+// debugger;
+
+renderComponent(new App(), document.querySelector('#root'));
+>>>>>>> feat: implement simple diffing algorithm
