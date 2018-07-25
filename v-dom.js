@@ -26,29 +26,7 @@ const renderNode = vnode => {
   return el
 }
 
-const diff = (dom, vnode) => {
-  if (dom.nodeType == Node.TEXT_NODE && vnode.split) {
-    dom.textContent = vnode;
-    return;
-  }
-  let hasNewKids = dom.childNodes.length !== vnode.children.length;
-
-  if (hasNewKids) {
-    dom.appendChild(
-      renderNode(vnode.children[vnode.children.length - 1])
-    );
-    return dom;
-  } else {
-    for (let i = 0; i < dom.childNodes.length; i++) {
-      diff(dom.childNodes[i], vnode.children[i]);
-    }
-
-    return dom;
-  }
-};
-
 export const renderComponent = (component, parent) => {
-<<<<<<< HEAD
   let rendered = component.render(component.props, component.state)
   component.base = diff(component.base, rendered)
 }
@@ -84,14 +62,5 @@ export const diff = (dom, vnode, parent) => {
     const newDom = renderNode(vnode)
     parent.appendChild(newDom)
     return newDom
-=======
-  const rendered = component.render(component.props, component.state);
-
-  if (parent) {
-    component.base = renderNode(rendered);
-    parent.appendChild(component.base);
-  } else {
-    component.base = diff(component.base, rendered);
->>>>>>> feat: implement simple diffing algorithm
   }
 }
