@@ -1,6 +1,6 @@
 import h from './my-hyperscript.js'
 import Component from './component'
-import { renderComponent } from './v-dom.js';
+import { diff } from './v-dom.js';
 
 const getRandomItemFromArray = (list) => {
   return list[
@@ -43,4 +43,8 @@ class People extends Component {
   }
 }
 
-renderComponent(new App(), document.querySelector('#root'))
+const render = (vnode, parent) => {
+  diff(undefined, vnode, parent)
+}
+
+render(h(App), document.querySelector('#root'))
