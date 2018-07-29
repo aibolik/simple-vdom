@@ -1,4 +1,6 @@
-import h from './my-hyperscript.js';
+import h from './my-hyperscript.js'
+import Component from './component'
+import { renderComponent } from './v-dom.js';
 
 const getRandomItemFromArray = (list) => {
   return list[
@@ -6,41 +8,39 @@ const getRandomItemFromArray = (list) => {
   ];
 };
 
-const App = (props) => {
-  const { list } = props;
-
-  return h('div', { class: 'app' },
-    h('h1', null, 'Simple vDOM'),
-    h(
-      'ul', null,
-      ...list.map(item => h('li', null, item))
+class App extends Component {
+  render() {
+    return h('div', { class: 'app' },
+      h('h1', null, 'Simple vDOM'),
+      h(People)
     )
-  );
+  }
 };
 
-let currentApp;
-const render = (state) => {
-  const newApp = App(state);
-  currentApp 
-    ? document.body.replaceChild(newApp, currentApp)
-    : document.body.appendChild(newApp);
-  
-  currentApp = newApp;
-};
+class People extends Component {
+  constructor(props) {
+    super(props)
 
-const state = {
-  list: [
-    '🕺', '💃', '😀', '🙋‍', '💼',
-    '🕶️️', '👏', '🤳', '🕵️', '👩‍🔧'
-  ]
-};
+    this.state = {
+      list: [
+        '🕺', '💃', '😀', '🙋‍', '💼',
+        '🕶️️', '👏', '🤳', '🕵️', '👩‍🔧'
+      ]
+    }
 
-render(state);
+    this.timer = setInterval(_ => {
+      this.setState({
+        list: [...this.state.list, getRandomItemFromArray(this.state.list)]
+      })
+    }, 1000)
+  }
 
-setInterval(() => {
-  state.list = [
-    ...state.list,
-    getRandomItemFromArray(state.list)
-  ];
-  render(state);
-}, 1000);
+  render(props, state) {
+    return h(
+      'ul', null,
+      ...state.list.map(item => h('li', null, item))
+    )
+  }
+}
+
+renderComponent(new App(), document.querySelector('#root'))
